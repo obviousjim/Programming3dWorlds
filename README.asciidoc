@@ -1,0 +1,3 @@
+== Pixels to Polygons: Programming 3D Worlds
+
+http://jamesgeorge.org/3dworlds/[Syllabus]
