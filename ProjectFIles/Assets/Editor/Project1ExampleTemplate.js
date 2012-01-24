@@ -34,6 +34,11 @@ static function TestAllGeometry() {
 		g.name = "Cylinder " + i;
 	}
 	
+	//light them
+	for(i = 0; i < 10; i++){
+		GeometryHelper.CreateSpotLight(Vector3(i*30,70,0), -Vector3.up, 100.0, 40.0, .03, Color(Random.Range(0,255),Random.Range(0,255),Random.Range(0,255)));
+	}
+	
 	var redPlane = GeometryHelper.CreateVerticlePlaneAlongX(Vector3(-75, 0,0), 10, 10);
 	var greenPlane = GeometryHelper.CreateHorizontalPlane(Vector3(-75, 0,0), 4, 10);
 	var bluePlane = GeometryHelper.CreateVerticlePlaneAlongZ(Vector3(-75, 0,0), 4, 10);
@@ -57,7 +62,6 @@ static function TestAllGeometry() {
 	//light the triangles with random spot lights 
 
 	for(i = 0; i < 10; i++){
-		
 		var position : Vector3 = triangleCenter + Random.onUnitSphere * 75;
 		//point back to the center
 		var direction = (triangleCenter - position ).normalized;
