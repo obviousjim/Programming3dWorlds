@@ -1,3 +1,9 @@
 == Pixels to Polygons: Programming 3D Worlds
 
 http://jamesgeorge.org/3dworlds/[Syllabus]
+
+=== Some Helpful Resources
+
+* http://www.studica.com/unity[Unity student pricing]
+
+* http://unity3d.com/support/documentation/Manual/Lightmapping.html[Lightmapping tutorial] (includes instructions for how to use area lights w/baking)
