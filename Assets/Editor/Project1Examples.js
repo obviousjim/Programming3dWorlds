@@ -112,6 +112,12 @@ static function GlassyWave(){
 	GeometryHelper.EndPolys();
 }
 
+@MenuItem ("Assignment1/Move Camera")
+static function MoveCamera(){
+	Camera.main.transform.position = Vector3(10, 0, 10); //move it somewhere;
+	Camera.main.transform.LookAt(Vector3(0, 0, 0)); // point it at something!;
+}
+
 @MenuItem ("Assignment1/Build My Memory")
 static function BuildMemory() {
 	//Fill this out
