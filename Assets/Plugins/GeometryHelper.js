@@ -14,7 +14,12 @@
 public class GeometryHelper {
 	private static var materials : Array = [];
 	private static var geometryParent : GameObject;
-	private static var mesh : Mesh = new Mesh();
+	private static var mesh : Mesh;
+	private static var vertices : Array;
+	private static var indices : Array;	
+	private static var uvs : Array;
+	private static var colors : Array;
+	
 	//SPHERES
 	static function CreateSphere(pos : Vector3, radius : float) : GameObject {
 		return CreatePrimitive(pos, radius, PrimitiveType.Sphere);
@@ -99,42 +104,66 @@ public class GeometryHelper {
 	
 	//POLYGONS
 	static function CreatePoly(a : Vector3, b : Vector3, c : Vector3) : GameObject {
-		var verts : Vector3[] = new Vector3[3];
-		var tris : int[] = new int[3];
-		var uvs : Vector2[] = new Vector2[3];
-		var meshContainer : GameObject = GameObject("Tri");
-		
-	    var mesh : Mesh = new Mesh();
-		verts[0] = a;
-		verts[1] = b;
-		verts[2] = c;		
-		tris[0] = 0;
-		tris[1] = 1;
-		tris[2] = 2;
-		uvs[0] = Vector2(0,0);
-		uvs[1] = Vector2(1,0);
-		uvs[2] = Vector2(0,1);
+		BeginPolys();
+		AddPoly(a,b,c);
+		EndPolys();
 
-		mesh.vertices = verts;
-	    mesh.triangles = tris;
+	}
+
+	static function BeginPolys(){
+		if(mesh != null){
+			Debug.LogWarning("Forcing end polys. check that begin/end is matched");
+			EndPolys();
+		}
+		
+		mesh = new Mesh();
+		vertices = [];
+		indices = [];
+		uvs = [];
+		colors = [];
+	}
+	
+	static function AddPoly(a : Vector3, b : Vector3, c : Vector3){
+		if(mesh == null){
+			Debug.LogWarning("Forcing begin polys. Check that begin/end is matched");
+			BeginPolys();
+		}
+
+		vertices.Push(a);
+		vertices.Push(b);
+		vertices.Push(c);
+		indices.Push(vertices.length-3);
+		indices.Push(vertices.length-2);
+		indices.Push(vertices.length-1);
+		uvs.Push(Vector2(0,0));
+		uvs.Push(Vector2(1,0));
+		uvs.Push(Vector2(0,1));
+		
+//		colors.Push(Color(Random.value,Random.value,Random.value));
+//		colors.Push(Color(Random.value,Random.value,Random.value));
+//		colors.Push(Color(Random.value,Random.value,Random.value));
+	}
+	
+	static function EndPolys() : GameObject {
+		mesh.vertices = vertices;
+	    mesh.triangles = indices;
 		mesh.uv = uvs;
+		mesh.colors = colors;
 		mesh.RecalculateNormals();
 		mesh.RecalculateBounds();
 		
+		var meshContainer : GameObject = GameObject("TriMesh");
 	    meshContainer.AddComponent(MeshFilter);
 	    meshContainer.GetComponent(MeshFilter).mesh = mesh;	    
 	    meshContainer.AddComponent(MeshRenderer);
 	    
-	    var mat : Material = new Material(Shader.Find("Diffuse"));
-   		mat.SetColor("_Color", Color.gray);
-   		materials.Push(mat);
-   		
-	    meshContainer.renderer.sharedMaterial = mat;	    
+	    meshContainer.renderer.sharedMaterial = GetMaterialWithColor(Color.gray);	    
 	    meshContainer.transform.parent = GetGeometryParent();
-	    
-		return meshContainer;
-	}
 
+		mesh = null;
+		return meshContainer;		
+	}
+	
 	//LIGHTS
 	static function CreatePointLight(position : Vector3, range : float, intensity : float, color : Color) : GameObject {
 		var lightContainer = CreateLight(position, intensity, color, LightType.Point);
@@ -172,16 +201,29 @@ public class GeometryHelper {
 	
 	//TODO: applying colors
 	static function ApplyColor(object : GameObject, c : Color){
-		var mat : Material = new Material(Shader.Find("Diffuse"));
-		mat.SetColor("_Color", c);
-		//TODO: look for re-usable colors 
-		materials.Push(mat);
-		object.renderer.sharedMaterial = mat;
+		object.renderer.sharedMaterial = GetMaterialWithColor(c);
 	}
 	
 	//TODO: applying rotations
 	static function Flip(object : GameObject, axis : Vector3){
 		object.transform.Rotate(axis, 180);
+	}
+	
+	private static function GetMaterialWithColor( c : Color) : Material{
+		for(var i = 0; i < materials.length; i++){
+			if(materials[i].color == c){
+				mat = materials[i];
+				break;
+			}
+		}
+		 
+		if(mat == null){
+			mat = new Material(Shader.Find("Diffuse"));
+			mat.SetColor("_Color", c);
+			materials.Push(mat);
+		}		
+		return mat;
+		
 	}
 	
 	private static function GetGeometryParent() : Transform{
@@ -190,6 +232,5 @@ public class GeometryHelper {
 		}
 		return geometryParent.transform;
 	}
+
 }
-
-
