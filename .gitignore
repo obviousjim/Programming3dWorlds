@@ -1,7 +1,8 @@
 .DS_Store
 Temp/*
 Library/*
-
+Library/ScriptAssemblies/*
+Library/assetDatabase3
 
 !Library/*.asset
 !Library/AssetImportState
