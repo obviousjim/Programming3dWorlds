@@ -53,9 +53,9 @@ static function BuildCylinderRing(){
 
 @MenuItem ("Assignment1/Build Colored Planes")
 static function BuildColoredPlanes(){
-	var redPlane = GeometryHelper.CreateVerticlePlaneAlongX(Vector3(-75, 0,0), 10, 10);
+	var redPlane = GeometryHelper.CreateVerticalPlaneAlongX(Vector3(-75, 0,0), 10, 10);
 	var greenPlane = GeometryHelper.CreateHorizontalPlane(Vector3(-75, 0,0), 4, 10);
-	var bluePlane = GeometryHelper.CreateVerticlePlaneAlongZ(Vector3(-75, 0,0), 4, 10);
+	var bluePlane = GeometryHelper.CreateVerticalPlaneAlongZ(Vector3(-75, 0,0), 4, 10);
 	
 	//You can also change the colors
 	GeometryHelper.ApplyColor(redPlane, Color.red);

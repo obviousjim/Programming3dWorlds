@@ -75,7 +75,7 @@ public class GeometryHelper {
 	//
 	
 	//PLANES
-	static function CreateVerticlePlaneAlongX(center : Vector3, width : float, height : float) : GameObject {
+	static function CreateVerticalPlaneAlongX(center : Vector3, width : float, height : float) : GameObject {
 		var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
 		plane.transform.position = center;
 		plane.transform.localScale = Vector3(height, 1, width);
@@ -84,7 +84,7 @@ public class GeometryHelper {
 		return plane;
 	}
 
-	static function CreateVerticlePlaneAlongZ(center : Vector3, width : float, height : float) : GameObject {
+	static function CreateVerticalPlaneAlongZ(center : Vector3, width : float, height : float) : GameObject {
 		var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
 		plane.transform.position = center;
 		plane.transform.localScale = Vector3(width, 1, height);
