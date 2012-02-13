@@ -1,16 +1,20 @@
+//This was the particle test we tried together at the end of class
 
 public var cubes : GameObject[];
 public var boundingPlane : GameObject;
 public var maxDistance : float = 100;
 public var forcePower : float = 4; 
+
 function Update () {
 	var center : Vector3;
 	var i;
+	//find the center of all the cubes
 	for(i = 0; i < cubes.length; i++){
 		center += cubes[i].transform.position;
 	}
 	center /= cubes.length;
 	
+	//move them all away
 	for(i = 0; i < cubes.length; i++){
 		var awayFromCenter : Vector3 = (cubes[i].transform.position - center).normalized;
 		var force : float = Mathf.Max(maxDistance - (cubes[i].transform.position - center).magnitude, 0);
